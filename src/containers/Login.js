@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Card, CardContent, CardMedia, Typography, Button, InputAdornment, IconButton, TextField, Hidden } from '@material-ui/core';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { Send, Clear } from '@material-ui/icons';
+import { Send, Clear, Visibility, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { Redirect, Link } from 'react-router-dom';
 import firebase from '../firebase';

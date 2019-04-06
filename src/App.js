@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login  from './containers/Login'
 import SignUp  from './containers/SignUp';
 import Home from './containers/Home';
+import NavBar from './components/NavBar';
 import { HashRouter, Route } from 'react-router-dom';
 import firebase from './firebase';
 
@@ -34,6 +35,7 @@ class App extends Component {
       <>
         <AuthContext.Provider value={this.state.user}>
           <HashRouter>
+            <Route path='/' component={NavBar}/>
             <Route path='/' exact component={Home} />
             <Route path='/login' exact component={Login} />
             <Route path='/signup' exact component={SignUp} />
