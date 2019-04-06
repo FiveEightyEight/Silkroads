@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Grid, TextField, InputAdornment, IconButton, Paper, Typography, Button, Hidden,} from '@material-ui/core';
+import { Grid, TextField, InputAdornment, IconButton, Paper, Typography, Button, } from '@material-ui/core';
 import { Visibility, VisibilityOff, Done, Clear } from '@material-ui/icons';
+import { Redirect, Link } from 'react-router-dom';
+import isEmail from 'validator/lib/isEmail';
+import firebase from '../firebase';
 
-
+// context 
+import AuthContext from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -51,9 +55,11 @@ export default withStyles(styles)(class SignUp extends Component {
         username: '',
         email: '',
         password: '',
-        showPassword: true,
+        showPassword: false,
         confirm: '',
-        showConfirm: true,
+        showConfirm: false,
+        valid: { username: true, email: true, password: true, confirm: true },
+        error: null,
     }
 
     handleChange = name => e => {
@@ -66,131 +72,206 @@ export default withStyles(styles)(class SignUp extends Component {
         })
     }
 
+    handleClick = name => e => {
+        switch (name) {
+            case 'done':
+                this.handleValidation();
+                return;
+
+            case 'clear':
+                return;
+
+            default:
+                return;
+        }
+    }
+
+    handleValidation = () => {
+        const { username, email, password, confirm, valid } = this.state;
+        (!username) ? valid.username = false : valid.username = true;
+        (!isEmail(email)) ? valid.email = false : valid.email = true;
+        (!password) ? valid.password = false : valid.password = true;
+        (!confirm) ? valid.confirm = false : valid.confirm = true;
+        if (valid.password && valid.confirm) {
+            if (password !== confirm ) {
+                valid.password = false;
+                valid.confirm = false;
+            };
+        };
+        const values = Object.values(valid);
+        if (values.includes(false)) {
+            this.setState({
+                valid,
+            })
+        } else {
+            this.handleSend(email, password);
+        }
+    }
+
+    handleSend = (email, password) => {
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((response) => {
+                console.log('Returns: ', response);
+            })
+            .catch(err => {
+                const { message } = err;
+                this.setState({ error: message });
+            })
+    }
+
+    componentDidUpdate(p, s) {
+        console.log(this.state);
+    }
+
 
     render() {
         const { classes } = this.props;
+        const { username, email, password, confirm} = this.state.valid;
+        const { error } = this.state;
         return (
-            <>
-                <Grid container
-                    justify='center'
-                    alignItems="center"
-                >
-                    <Paper className={classes.paper}>
-                        <Grid item xs={12}>
-                            <Grid container
-                                justify="center"
-                            >
-                                <Typography variant='h4'>
-                                    Sign Up
+            <AuthContext.Consumer>
+                {
+                    (user) => {
+                        if (user) {
+                            return (
+                                <Redirect to='/' />
+                            )
+                        } else {
+                            return (
+                                <>
+                                    <Grid container
+                                        justify='center'
+                                        alignItems="center"
+                                    >
+                                        <Paper className={classes.paper}>
+                                            <Grid item xs={12}>
+                                                <Grid container
+                                                    justify="center"
+                                                >
+                                                    <Typography variant='h4'>
+                                                        Sign Up
                                 </Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container
-                                justify="center"
-                            >
-                                <TextField
-                                    id="standard-name"
-                                    label="Username"
-                                    className={classes.inputs}
-                                    value={this.state.username}
-                                    onChange={this.handleChange('username')}
-                                    margin="normal"
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container
-                                justify="center"
-                            >
-                                <TextField
-                                    label="Email"
-                                    className={classes.inputs}
-                                    type="email"
-                                    name="email"
-                                    autoComplete="email"
-                                    margin="normal"
-                                    onChange={this.handleChange('email')}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container
-                                justify="center"
-                            >
-                                <TextField
-                                    type={this.state.showPassword ? 'text' : 'password'}
-                                    name='password'
-                                    className={classes.inputs}
-                                    label="Password"
-                                    value={this.state.password}
-                                    onChange={this.handleChange('password')}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="Toggle password visibility"
-                                                    onClick={this.handleClickShowPassword('showPassword')}
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Grid container
+                                                    justify="center"
                                                 >
-                                                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Grid container
-                                justify="center"
-                            >
-                                <TextField
-                                    type={this.state.showConfirm ? 'text' : 'password'}
-                                    name='password'
-                                    className={classes.inputs}
-                                    label="Confirm Password"
-                                    value={this.state.confirm}
-                                    onChange={this.handleChange('confirm')}
-                                    InputProps={{
-                                        endAdornment: (
-                                            <InputAdornment position="end">
-                                                <IconButton
-                                                    aria-label="Toggle password visibility"
-                                                    onClick={this.handleClickShowPassword('showConfirm')}
+                                                    <TextField
+                                                        error={!username}
+                                                        id="standard-name"
+                                                        label="Username"
+                                                        className={classes.inputs}
+                                                        value={this.state.username}
+                                                        onChange={this.handleChange('username')}
+                                                        margin="normal"
+                                                        helperText={error}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Grid container
+                                                    justify="center"
                                                 >
-                                                    {this.state.showConfirm ? <VisibilityOff /> : <Visibility />}
-                                                </IconButton>
-                                            </InputAdornment>
-                                        ),
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
-                        <Grid item xs={12} style={{ marginTop: 10 }}>
-                            <Grid container
-                                direction="row"
-                                justify="space-evenly"
-                                alignItems="center"
-                                spacing={8}
-                            >
-                                <Button variant="contained"
-                                    color="secondary"
-                                    name='clear'
-                                >
-                                    <Clear />
-                                </Button>
-                                <Button variant="contained"
-                                    color="primary"
-                                    name='clear'
-                                >
-                                    <Done />
-                                </Button>
-                            </Grid>
-                        </Grid>
-                    </Paper>
-                </Grid>
+                                                    <TextField
+                                                        error={!email}
+                                                        label="Email"
+                                                        className={classes.inputs}
+                                                        type="email"
+                                                        name="email"
+                                                        autoComplete="email"
+                                                        margin="normal"
+                                                        onChange={this.handleChange('email')}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Grid container
+                                                    justify="center"
+                                                >
+                                                    <TextField
+                                                        error={!password}
+                                                        type={this.state.showPassword ? 'text' : 'password'}
+                                                        name='password'
+                                                        className={classes.inputs}
+                                                        label="Password"
+                                                        value={this.state.password}
+                                                        onChange={this.handleChange('password')}
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="Toggle password visibility"
+                                                                        onClick={this.handleClickShowPassword('showPassword')}
+                                                                    >
+                                                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            ),
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12}>
+                                                <Grid container
+                                                    justify="center"
+                                                >
+                                                    <TextField
+                                                        error={!confirm}
+                                                        type={this.state.showConfirm ? 'text' : 'password'}
+                                                        name='password'
+                                                        className={classes.inputs}
+                                                        label="Confirm Password"
+                                                        value={this.state.confirm}
+                                                        onChange={this.handleChange('confirm')}
+                                                        InputProps={{
+                                                            endAdornment: (
+                                                                <InputAdornment position="end">
+                                                                    <IconButton
+                                                                        aria-label="Toggle password visibility"
+                                                                        onClick={this.handleClickShowPassword('showConfirm')}
+                                                                    >
+                                                                        {this.state.showConfirm ? <VisibilityOff /> : <Visibility />}
+                                                                    </IconButton>
+                                                                </InputAdornment>
+                                                            ),
+                                                        }}
+                                                    />
+                                                </Grid>
+                                            </Grid>
+                                            <Grid item xs={12} style={{ marginTop: 10 }}>
+                                                <Grid container
+                                                    direction="row"
+                                                    justify="space-evenly"
+                                                    alignItems="center"
+                                                    spacing={8}
+                                                >
+                                                    <Link to='/'>
+                                                        <Button variant="contained"
+                                                            color="secondary"
+                                                            name='clear'
+                                                        >
+                                                            <Clear />
+                                                        </Button>
+                                                    </Link>
+                                                    <Button variant="contained"
+                                                        color="primary"
+                                                        name='done'
+                                                        onClick={this.handleClick('done')}
+                                                    >
+                                                        <Done />
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Paper>
+                                    </Grid>
 
-            </>
+                                </>
+                            )
+                        }
+                    }
+                }
+            </AuthContext.Consumer>
         )
     }
 });
