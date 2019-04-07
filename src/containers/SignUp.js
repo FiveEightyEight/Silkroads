@@ -33,7 +33,7 @@ const styles = theme => ({
         paddingRight: 10,
     },
     main: {
-        marginTop: '20vh',
+        marginTop: '5vh',
     },
     mdPaper: {
         marginTop: 5,
@@ -146,13 +146,6 @@ export default withStyles(styles)(class SignUp extends Component {
         }
     }
 
-    componentDidUpdate(p, ps) {
-        const {oldPw, oldConfirm} = ps
-        const {pw, confirm, realTime} = this.state
-        // if(pw === confirm && !realTime) this.handlePWChk()
-    }
-
-
     render() {
         const { classes } = this.props;
         const { username, email, password, confirm } = this.state.valid;
@@ -172,6 +165,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                     <Grid container
                                         justify='center'
                                         alignItems="center"
+                                        className={classes.main}
                                     >
                                         <Paper className={classes.paper}>
                                             <Grid item xs={12}>
