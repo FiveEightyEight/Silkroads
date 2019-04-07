@@ -126,23 +126,3 @@ export default withStyles(styles)(class NavBar extends Component {
         )
     }
 })
-//   return(
-//     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-//       <Link className="navbar-brand" to="/">Authentication</Link>
-//       <ul className="navbar-nav">
-//         <li className="nav-item">
-//           <Link className="nav-link" to="/">Home</Link>
-//         </li>
-
-//         <AuthContext.Consumer>
-//           {
-//             user => {
-//               if (user) return loggedIn
-//               else return loggedOut
-//             }
-//           }
-//         </AuthContext.Consumer>
-//       </ul>
-//     </nav>
-//   )
-// }
