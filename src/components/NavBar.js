@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { AppBar, FormControlLabel, FormGroup, IconButton, Menu, MenuItem, Switch, Toolbar, Typography } from '@material-ui/core/';
+import { AppBar,  IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
 import { AccountCircle, Send } from '@material-ui/icons/';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -19,47 +19,60 @@ const styles = theme => ({
 
 export default withStyles(styles)(class NavBar extends Component {
     state = {
-        auth: false,
         anchorEl: null,
+        main: null,
+        profile: null,
     };
 
-    handleMenu = event => {
-        this.setState({ anchorEl: event.currentTarget });
+    handleMenu = name => event => {
+        console.log(event.currentTarget)
+        this.setState({ anchorEl: event.currentTarget, [name]: true });
     };
 
     handleClose = () => {
-        this.setState({ anchorEl: null });
+        this.setState({ anchorEl: null, main: false, profile: false });
     }
-
-
 
     render() {
         const { classes } = this.props;
-        const { auth, anchorEl } = this.state;
-        const open = Boolean(anchorEl);
-
-
-        const loggedOut = <><li className="nav-item">
-            <Link className="nav-link" to="/signup">Sign Up</Link>
-        </li>
-            <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
-            </li></>
-
-        const loggedIn = <><li className="nav-item">
-            <Link className="nav-link" to="/logout">Logout</Link>
-        </li></>
-
+        const { anchorEl } = this.state;
+        const open = this.state.profile || false;
+        const menu = this.state.main || false;
 
         return (
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+                    <IconButton className={classes.menuButton}
+                        color="inherit"
+                        aria-label="menu-main"
+                        aria-haspopup="true"
+                        aria-owns={menu ? 'menu-main' : undefined}
+                        onClick={this.handleMenu('main')}
+                    >
                         <MenuIcon />
                     </IconButton>
+                    <Menu
+                        id="menu-main"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={menu}
+                        onClose={this.handleClose}
+                    >
+                        <Link to='/' style={{textDecoration:'none', backgroundColor: 'red'}}>
+                            <MenuItem onClick={this.handleClose}>Home</MenuItem>
+                        </Link>
+                        <MenuItem onClick={this.handleClose}>Threads</MenuItem>
+                    </Menu>
                     <Typography variant="h6" color="inherit" className={classes.grow}>
                         Silkroads
-                </Typography>
+                    </Typography>
                     <AuthContext.Consumer>
                         {
                             (user) => {
@@ -69,7 +82,7 @@ export default withStyles(styles)(class NavBar extends Component {
                                             <IconButton
                                                 aria-owns={open ? 'menu-appbar' : undefined}
                                                 aria-haspopup="true"
-                                                onClick={this.handleMenu}
+                                                onClick={this.handleMenu('profile')}
                                                 color="inherit"
                                             >
                                                 <AccountCircle />
@@ -90,14 +103,17 @@ export default withStyles(styles)(class NavBar extends Component {
                                             >
                                                 <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                                                 <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                                <Link to='/logout'>
+                                                    <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+                                                </Link>
                                             </Menu>
                                         </div>
                                     )
                                 } else {
                                     return (
                                         <>
-                                            <Link to='/signup'>
-                                            <Send />
+                                            <Link to='/'>
+                                                <Send />
                                             </Link>
                                         </>
                                     )

@@ -43,7 +43,7 @@ export default withStyles(styles)(class Login extends Component {
     state = {
         email: '',
         password: '',
-        showPassword: true,
+        showPassword: false,
         users: [],
         mainPage: true,
         error: '',
