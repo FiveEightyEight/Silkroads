@@ -25,7 +25,7 @@ const styles = theme => ({
         paddingRight: 10,
     },
     main: {
-        marginTop: '20vh',
+        marginTop: '5vh',
     },
     mdPaper: {
         marginTop: 5,

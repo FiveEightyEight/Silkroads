@@ -40,7 +40,7 @@ export default withStyles(styles)(class NavBar extends Component {
         const menu = this.state.main || false;
 
         return (
-            <AppBar position="static">
+            <AppBar position="static" color='inherit'>
                 <Toolbar>
                     <IconButton className={classes.menuButton}
                         color="inherit"
