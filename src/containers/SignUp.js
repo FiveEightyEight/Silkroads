@@ -59,11 +59,14 @@ export default withStyles(styles)(class SignUp extends Component {
         confirm: '',
         showConfirm: false,
         valid: { username: true, email: true, password: true, confirm: true },
+        realTime: true,
         error: null,
     }
 
     handleChange = name => e => {
-        this.setState({ [name]: e.target.value });
+        this.setState({ [name]: e.target.value }, ()=> {
+            if (name === 'password' || name === 'confirm') this.handlePWChk(e)
+        });
     }
 
     handleClickShowPassword = name => e => {
@@ -93,7 +96,7 @@ export default withStyles(styles)(class SignUp extends Component {
         (!password) ? valid.password = false : valid.password = true;
         (!confirm) ? valid.confirm = false : valid.confirm = true;
         if (valid.password && valid.confirm) {
-            if (password !== confirm ) {
+            if (password !== confirm) {
                 valid.password = false;
                 valid.confirm = false;
             };
@@ -106,6 +109,24 @@ export default withStyles(styles)(class SignUp extends Component {
         } else {
             this.handleSend(email, password);
         }
+    }
+
+    handlePWChk = (e) => {
+        console.log('in password check');
+        const { password, confirm, } = this.state;
+        if (!password || !confirm) return;
+        if (password !== confirm) {
+            console.log('going false')
+            this.setState({
+                realTime: false,
+            });
+            return;
+        }
+        console.log('here')
+        this.setState({
+            realTime: true,
+        });
+
     }
 
     handleSend = (email, password) => {
@@ -125,15 +146,18 @@ export default withStyles(styles)(class SignUp extends Component {
         }
     }
 
-    componentDidUpdate(p, s) {
-        console.log(this.state);
+    componentDidUpdate(p, ps) {
+        const {oldPw, oldConfirm} = ps
+        const {pw, confirm, realTime} = this.state
+        // if(pw === confirm && !realTime) this.handlePWChk()
     }
 
 
     render() {
         const { classes } = this.props;
-        const { username, email, password, confirm} = this.state.valid;
-        const { error } = this.state;
+        const { username, email, password, confirm } = this.state.valid;
+        const { error, realTime } = this.state;
+        console.log('realTime: ', realTime)
         return (
             <AuthContext.Consumer>
                 {
@@ -198,7 +222,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                     justify="center"
                                                 >
                                                     <TextField
-                                                        error={!password}
+                                                        error={!password || !realTime}
                                                         type={this.state.showPassword ? 'text' : 'password'}
                                                         name='password'
                                                         className={classes.inputs}
@@ -226,7 +250,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                     justify="center"
                                                 >
                                                     <TextField
-                                                        error={!confirm}
+                                                        error={!confirm || !realTime}
                                                         type={this.state.showConfirm ? 'text' : 'password'}
                                                         name='password'
                                                         className={classes.inputs}
