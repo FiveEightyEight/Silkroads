@@ -119,6 +119,12 @@ export default withStyles(styles)(class SignUp extends Component {
             })
     }
 
+    onKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.handleValidation();
+        }
+    }
+
     componentDidUpdate(p, s) {
         console.log(this.state);
     }
@@ -166,6 +172,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         onChange={this.handleChange('username')}
                                                         margin="normal"
                                                         helperText={error}
+                                                        onKeyDown={this.onKeyPress}
                                                     />
                                                 </Grid>
                                             </Grid>
@@ -182,6 +189,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         autoComplete="email"
                                                         margin="normal"
                                                         onChange={this.handleChange('email')}
+                                                        onKeyDown={this.onKeyPress}
                                                     />
                                                 </Grid>
                                             </Grid>
@@ -197,6 +205,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         label="Password"
                                                         value={this.state.password}
                                                         onChange={this.handleChange('password')}
+                                                        onKeyDown={this.onKeyPress}
                                                         InputProps={{
                                                             endAdornment: (
                                                                 <InputAdornment position="end">
@@ -224,6 +233,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         label="Confirm Password"
                                                         value={this.state.confirm}
                                                         onChange={this.handleChange('confirm')}
+                                                        onKeyDown={this.onKeyPress}
                                                         InputProps={{
                                                             endAdornment: (
                                                                 <InputAdornment position="end">
