@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import firebase from '../firebase';
 
 //context 
-import AuthContext from '../contexts/Auth';
+import { Consumer } from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -82,19 +82,25 @@ export default withStyles(styles)(class Login extends Component {
     handleSend = () => {
         const { email, password, } = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password)
-      .then((response) => {
-        console.log('Returns: ', response);
-      })
-      .catch(err => {
-        const { message } = err;
-        this.setState({ error: message });
-      })
+            .then((response) => {
+                console.log('Returns: ', response);
+            })
+            .catch(err => {
+                const { message } = err;
+                this.setState({ error: message });
+            })
+    }
+
+    onKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.handleSend()
+        }
     }
 
     render() {
         const { classes } = this.props;
         return (
-            <AuthContext.Consumer>
+            <Consumer>
                 {
                     (user) => {
                         if (user) {
@@ -136,6 +142,7 @@ export default withStyles(styles)(class Login extends Component {
                                                                             variant="outlined"
                                                                             onChange={this.handleChange}
                                                                             value={this.state.email}
+                                                                            onKeyDown={this.onKeyPress}
                                                                         />
                                                                     </Grid>
                                                                     <Grid item xs={12}>
@@ -147,6 +154,7 @@ export default withStyles(styles)(class Login extends Component {
                                                                             label="Password"
                                                                             value={this.state.password}
                                                                             onChange={this.handleChange}
+                                                                            onKeyDown={this.onKeyPress}
                                                                             InputProps={{
                                                                                 endAdornment: (
                                                                                     <InputAdornment position="end">
@@ -223,6 +231,7 @@ export default withStyles(styles)(class Login extends Component {
                                                                             variant="outlined"
                                                                             onChange={this.handleChange}
                                                                             value={this.state.email}
+                                                                            onKeyDown={this.onKeyPress}
                                                                         />
                                                                     </Grid>
                                                                     <Grid item xs={12}>
@@ -235,6 +244,7 @@ export default withStyles(styles)(class Login extends Component {
                                                                             label="Password"
                                                                             value={this.state.password}
                                                                             onChange={this.handleChange}
+                                                                            onKeyDown={this.onKeyPress}
                                                                             InputProps={{
                                                                                 endAdornment: (
                                                                                     <InputAdornment position="end">
@@ -410,7 +420,7 @@ export default withStyles(styles)(class Login extends Component {
                         }
                     }
                 }
-            </AuthContext.Consumer>
+            </Consumer>
         )
     }
 });

@@ -1,8 +1,9 @@
 import React from 'react';
-import AuthContext from '../contexts/Auth';
 import firebase from '../firebase';
 import { Redirect } from 'react-router-dom';
 
+
+import { Consumer } from '../contexts/Auth';
 export default class Logout extends React.Component {
 
     componentDidMount() {
@@ -11,7 +12,7 @@ export default class Logout extends React.Component {
 
     render() {
         return (
-            <AuthContext.Consumer>
+            <Consumer>
                 {
                     (user) => {
                         if (user) {
@@ -21,7 +22,7 @@ export default class Logout extends React.Component {
                         }
                     }
                 }
-            </AuthContext.Consumer>
+            </Consumer>
         )
     }
 }

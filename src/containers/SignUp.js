@@ -7,7 +7,7 @@ import isEmail from 'validator/lib/isEmail';
 import firebase from '../firebase';
 
 // context 
-import AuthContext from '../contexts/Auth';
+import {Consumer} from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -33,7 +33,7 @@ const styles = theme => ({
         paddingRight: 10,
     },
     main: {
-        marginTop: '20vh',
+        marginTop: '5vh',
     },
     mdPaper: {
         marginTop: 5,
@@ -59,11 +59,14 @@ export default withStyles(styles)(class SignUp extends Component {
         confirm: '',
         showConfirm: false,
         valid: { username: true, email: true, password: true, confirm: true },
+        realTime: true,
         error: null,
     }
 
     handleChange = name => e => {
-        this.setState({ [name]: e.target.value });
+        this.setState({ [name]: e.target.value }, ()=> {
+            if (name === 'password' || name === 'confirm') this.handlePWChk(e)
+        });
     }
 
     handleClickShowPassword = name => e => {
@@ -93,7 +96,7 @@ export default withStyles(styles)(class SignUp extends Component {
         (!password) ? valid.password = false : valid.password = true;
         (!confirm) ? valid.confirm = false : valid.confirm = true;
         if (valid.password && valid.confirm) {
-            if (password !== confirm ) {
+            if (password !== confirm) {
                 valid.password = false;
                 valid.confirm = false;
             };
@@ -108,6 +111,24 @@ export default withStyles(styles)(class SignUp extends Component {
         }
     }
 
+    handlePWChk = (e) => {
+        console.log('in password check');
+        const { password, confirm, } = this.state;
+        if (!password || !confirm) return;
+        if (password !== confirm) {
+            console.log('going false')
+            this.setState({
+                realTime: false,
+            });
+            return;
+        }
+        console.log('here')
+        this.setState({
+            realTime: true,
+        });
+
+    }
+
     handleSend = (email, password) => {
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((response) => {
@@ -119,17 +140,19 @@ export default withStyles(styles)(class SignUp extends Component {
             })
     }
 
-    componentDidUpdate(p, s) {
-        console.log(this.state);
+    onKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.handleValidation();
+        }
     }
-
 
     render() {
         const { classes } = this.props;
-        const { username, email, password, confirm} = this.state.valid;
-        const { error } = this.state;
+        const { username, email, password, confirm } = this.state.valid;
+        const { error, realTime } = this.state;
+        console.log('realTime: ', realTime)
         return (
-            <AuthContext.Consumer>
+            <Consumer>
                 {
                     (user) => {
                         if (user) {
@@ -142,6 +165,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                     <Grid container
                                         justify='center'
                                         alignItems="center"
+                                        className={classes.main}
                                     >
                                         <Paper className={classes.paper}>
                                             <Grid item xs={12}>
@@ -166,6 +190,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         onChange={this.handleChange('username')}
                                                         margin="normal"
                                                         helperText={error}
+                                                        onKeyDown={this.onKeyPress}
                                                     />
                                                 </Grid>
                                             </Grid>
@@ -182,6 +207,7 @@ export default withStyles(styles)(class SignUp extends Component {
                                                         autoComplete="email"
                                                         margin="normal"
                                                         onChange={this.handleChange('email')}
+                                                        onKeyDown={this.onKeyPress}
                                                     />
                                                 </Grid>
                                             </Grid>
@@ -190,13 +216,14 @@ export default withStyles(styles)(class SignUp extends Component {
                                                     justify="center"
                                                 >
                                                     <TextField
-                                                        error={!password}
+                                                        error={!password || !realTime}
                                                         type={this.state.showPassword ? 'text' : 'password'}
                                                         name='password'
                                                         className={classes.inputs}
                                                         label="Password"
                                                         value={this.state.password}
                                                         onChange={this.handleChange('password')}
+                                                        onKeyDown={this.onKeyPress}
                                                         InputProps={{
                                                             endAdornment: (
                                                                 <InputAdornment position="end">
@@ -217,13 +244,14 @@ export default withStyles(styles)(class SignUp extends Component {
                                                     justify="center"
                                                 >
                                                     <TextField
-                                                        error={!confirm}
+                                                        error={!confirm || !realTime}
                                                         type={this.state.showConfirm ? 'text' : 'password'}
                                                         name='password'
                                                         className={classes.inputs}
                                                         label="Confirm Password"
                                                         value={this.state.confirm}
                                                         onChange={this.handleChange('confirm')}
+                                                        onKeyDown={this.onKeyPress}
                                                         InputProps={{
                                                             endAdornment: (
                                                                 <InputAdornment position="end">
@@ -271,7 +299,7 @@ export default withStyles(styles)(class SignUp extends Component {
                         }
                     }
                 }
-            </AuthContext.Consumer>
+            </Consumer>
         )
     }
 });
