@@ -4,6 +4,7 @@ import SignUp from './containers/SignUp';
 import Home from './containers/Home';
 import NavBar from './components/NavBar';
 import Logout from './containers/Logout';
+import Profile from './components/Profile'
 import { Grid } from '@material-ui/core';
 import { HashRouter, Route } from 'react-router-dom';
 import firebase from './firebase';
@@ -41,6 +42,7 @@ class App extends Component {
             <Route path='/' component={NavBar} />
             <Grid container style={{ marginTop: '65px' }}>
               <Route path='/' exact component={Home} />
+              <Route path='/profile' exact component={Profile} />
               <Route path='/login' exact component={Login} />
               <Route path='/signup' exact component={SignUp} />
               <Route path='/logout' exact component={Logout} />
