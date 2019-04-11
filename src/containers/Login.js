@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import firebase from '../firebase';
 
 //context 
-import AuthContext from '../contexts/Auth';
+import { Consumer } from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -100,7 +100,7 @@ export default withStyles(styles)(class Login extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <AuthContext.Consumer>
+            <Consumer>
                 {
                     (user) => {
                         if (user) {
@@ -420,7 +420,7 @@ export default withStyles(styles)(class Login extends Component {
                         }
                     }
                 }
-            </AuthContext.Consumer>
+            </Consumer>
         )
     }
 });

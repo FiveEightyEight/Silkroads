@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { AccountCircle, Send } from '@material-ui/icons/';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-import AuthContext from '../contexts/Auth';
+import {Consumer} from '../contexts/Auth';
 
 const styles = theme => ({
     menuButton: {
@@ -40,7 +40,7 @@ export default withStyles(styles)(class NavBar extends Component {
         const menu = this.state.main || false;
 
         return (
-            <AppBar position="static" color='inherit'>
+            <AppBar color='inherit'>
                 <Toolbar>
                     <IconButton className={classes.menuButton}
                         color="inherit"
@@ -73,7 +73,7 @@ export default withStyles(styles)(class NavBar extends Component {
                     <Typography variant="h6" color="inherit" className={classes.grow}>
                         Silkroads
                     </Typography>
-                    <AuthContext.Consumer>
+                    <Consumer>
                         {
                             (user) => {
                                 if (user) {
@@ -120,7 +120,7 @@ export default withStyles(styles)(class NavBar extends Component {
                                 }
                             }
                         }
-                    </AuthContext.Consumer>
+                    </Consumer>
                 </Toolbar>
             </AppBar>
         )

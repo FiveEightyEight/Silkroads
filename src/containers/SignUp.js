@@ -7,7 +7,7 @@ import isEmail from 'validator/lib/isEmail';
 import firebase from '../firebase';
 
 // context 
-import AuthContext from '../contexts/Auth';
+import {Consumer} from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -152,7 +152,7 @@ export default withStyles(styles)(class SignUp extends Component {
         const { error, realTime } = this.state;
         console.log('realTime: ', realTime)
         return (
-            <AuthContext.Consumer>
+            <Consumer>
                 {
                     (user) => {
                         if (user) {
@@ -299,7 +299,7 @@ export default withStyles(styles)(class SignUp extends Component {
                         }
                     }
                 }
-            </AuthContext.Consumer>
+            </Consumer>
         )
     }
 });

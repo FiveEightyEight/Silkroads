@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
-import Login  from './containers/Login'
-import SignUp  from './containers/SignUp';
+import Login from './containers/Login'
+import SignUp from './containers/SignUp';
 import Home from './containers/Home';
 import NavBar from './components/NavBar';
 import Logout from './containers/Logout';
+import { Grid } from '@material-ui/core';
 import { HashRouter, Route } from 'react-router-dom';
 import firebase from './firebase';
 
 // Context
-import AuthContext from './contexts/Auth';
+import {Provider} from './contexts/Auth';
+
 
 class App extends Component {
 
   state = {
-    user: null
+    user: null,
   }
 
   componentDidMount() {
@@ -34,15 +36,17 @@ class App extends Component {
   render() {
     return (
       <>
-        <AuthContext.Provider value={this.state.user}>
-          <HashRouter>
-            <Route path='/' component={NavBar}/>
-            <Route path='/' exact component={Home} />
-            <Route path='/login' exact component={Login} />
-            <Route path='/signup' exact component={SignUp} />
-            <Route path='/logout' exact component={Logout} />
-          </HashRouter>
-        </AuthContext.Provider>
+        <HashRouter>
+          <Provider value={this.state.user}>
+            <Route path='/' component={NavBar} />
+            <Grid container style={{ marginTop: '65px' }}>
+              <Route path='/' exact component={Home} />
+              <Route path='/login' exact component={Login} />
+              <Route path='/signup' exact component={SignUp} />
+              <Route path='/logout' exact component={Logout} />
+            </Grid>
+          </Provider>
+        </HashRouter>
       </>
     );
   }

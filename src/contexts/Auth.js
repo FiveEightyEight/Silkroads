@@ -1,2 +1,3 @@
 import React from 'react';
-export default React.createContext(null);
+export const userAuth = React.createContext(null);
+export const { Provider, Consumer } = userAuth;
