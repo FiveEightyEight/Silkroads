@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import { Grid, Card, CardContent, CardMedia, Typography, Button, InputAdornment, IconButton, TextField, Hidden } from '@material-ui/core';
 import { Send, Clear, Visibility, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
@@ -83,7 +84,21 @@ export default withStyles(styles)(class Login extends Component {
         const { email, password, } = this.state;
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((response) => {
-                console.log('Returns: ', response);
+                console.log('Returns: ', response.user);
+                return axios({
+                    url: 'http://localhost:5000/members/login',
+                    method: 'put',
+                    params: {
+                        uid: response.user.uid,
+                    },
+                });
+            })
+            .then( res => {
+                // console.log('RES: ', res)
+                return res.data
+            })
+            .then( user => {
+                localStorage.setItem('user', JSON.stringify(user));
             })
             .catch(err => {
                 const { message } = err;
