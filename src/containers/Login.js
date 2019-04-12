@@ -54,9 +54,9 @@ export default withStyles(styles)(class Login extends Component {
     }
 
     handleClick = name => e => {
-        console.dir(e)
-        console.dir(e.currentTarget.name)
-        console.log(e.currentTarget.name);
+        // console.dir(e)
+        // console.dir(e.currentTarget.name)
+        // console.log(e.currentTarget.name);
         switch (name) {
             case 'send':
                 this.handleSend();

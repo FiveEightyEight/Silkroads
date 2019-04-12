@@ -25,7 +25,6 @@ export default withStyles(styles)(class NavBar extends Component {
     };
 
     handleMenu = name => event => {
-        console.log(event.currentTarget)
         this.setState({ anchorEl: event.currentTarget, [name]: true });
     };
 
