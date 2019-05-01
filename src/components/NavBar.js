@@ -103,6 +103,9 @@ export default withStyles(styles)(class NavBar extends Component {
                                                 <Link to='/profile'>
                                                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                                                 </Link>
+                                                <Link to='/post'>
+                                                    <MenuItem onClick={this.handleClose}>Create Post</MenuItem>
+                                                </Link>
                                                 <Link to='/logout'>
                                                     <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                                                 </Link>
