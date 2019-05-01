@@ -1,9 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { Consumer } from '../contexts/Auth';
-import { Avatar, Grid, Paper, Typography, Divider } from '@material-ui/core';
+import { Avatar, Grid, Paper, Typography } from '@material-ui/core';
 
 
 const styles = theme => ({

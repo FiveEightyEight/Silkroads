@@ -1,7 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import { BottomNavigation, BottomNavigationAction, AppBar, } from '@material-ui/core/';
+import { BottomNavigation, BottomNavigationAction } from '@material-ui/core/';
 import RestoreIcon from '@material-ui/icons/Restore';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import Folder from '@material-ui/icons/Folder';
@@ -26,8 +25,3 @@ export default withStyles(styles)(props => {
             </BottomNavigation>
     );
 });
-
-// BottomNav.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
-
