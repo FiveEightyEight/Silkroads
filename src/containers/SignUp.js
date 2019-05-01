@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { signUpNewMember } from '../services/members'
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, TextField, InputAdornment, IconButton, Paper, Typography, Button, } from '@material-ui/core';
 import { Visibility, VisibilityOff, Done, Clear } from '@material-ui/icons';
@@ -131,16 +131,7 @@ export default withStyles(styles)(class SignUp extends Component {
         const { username } = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((response) => {
-                return axios({
-                    url: 'http://localhost:5000/members/create',
-                    method: 'post',
-                    data: {
-                        username: username,
-                        email: email,
-                        password: password,
-                        uid: response.user.uid
-                    },
-                });
+                return signUpNewMember(username, email, password, response.user.uid);
             })
             .then( res => {
                 return res.data.data
