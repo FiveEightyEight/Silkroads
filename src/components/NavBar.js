@@ -1,11 +1,11 @@
 
 import React, { Component } from 'react';
-import { AppBar,  IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core/';
+import { AppBar, IconButton, Menu, MenuItem, Toolbar, Typography } from '@material-ui/core/';
 import { withStyles } from '@material-ui/core/styles';
 import { AccountCircle, Send } from '@material-ui/icons/';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
-import {Consumer} from '../contexts/Auth';
+import { Consumer } from '../contexts/Auth';
 
 const styles = theme => ({
     menuButton: {
@@ -25,7 +25,6 @@ export default withStyles(styles)(class NavBar extends Component {
     };
 
     handleMenu = name => event => {
-        console.log(event.currentTarget)
         this.setState({ anchorEl: event.currentTarget, [name]: true });
     };
 
@@ -65,7 +64,7 @@ export default withStyles(styles)(class NavBar extends Component {
                         open={menu}
                         onClose={this.handleClose}
                     >
-                        <Link to='/' style={{textDecoration:'none', backgroundColor: 'red'}}>
+                        <Link to='/' style={{ textDecoration: 'none', backgroundColor: 'red' }}>
                             <MenuItem onClick={this.handleClose}>Home</MenuItem>
                         </Link>
                         <MenuItem onClick={this.handleClose}>Threads</MenuItem>
@@ -101,8 +100,9 @@ export default withStyles(styles)(class NavBar extends Component {
                                                 open={open}
                                                 onClose={this.handleClose}
                                             >
-                                                <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                                <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                                <Link to='/profile'>
+                                                    <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                                                </Link>
                                                 <Link to='/logout'>
                                                     <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                                                 </Link>

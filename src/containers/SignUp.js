@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { signUpNewMember } from '../services/members'
 import { withStyles } from '@material-ui/core/styles';
 import { Grid, TextField, InputAdornment, IconButton, Paper, Typography, Button, } from '@material-ui/core';
 import { Visibility, VisibilityOff, Done, Clear } from '@material-ui/icons';
@@ -7,7 +8,7 @@ import isEmail from 'validator/lib/isEmail';
 import firebase from '../firebase';
 
 // context 
-import {Consumer} from '../contexts/Auth';
+import { Consumer } from '../contexts/Auth';
 
 const styles = theme => ({
     paper: {
@@ -64,7 +65,7 @@ export default withStyles(styles)(class SignUp extends Component {
     }
 
     handleChange = name => e => {
-        this.setState({ [name]: e.target.value }, ()=> {
+        this.setState({ [name]: e.target.value }, () => {
             if (name === 'password' || name === 'confirm') this.handlePWChk(e)
         });
     }
@@ -112,17 +113,14 @@ export default withStyles(styles)(class SignUp extends Component {
     }
 
     handlePWChk = (e) => {
-        console.log('in password check');
         const { password, confirm, } = this.state;
         if (!password || !confirm) return;
         if (password !== confirm) {
-            console.log('going false')
             this.setState({
                 realTime: false,
             });
             return;
         }
-        console.log('here')
         this.setState({
             realTime: true,
         });
@@ -130,9 +128,16 @@ export default withStyles(styles)(class SignUp extends Component {
     }
 
     handleSend = (email, password) => {
+        const { username } = this.state
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((response) => {
-                console.log('Returns: ', response);
+                return signUpNewMember(username, email, password, response.user.uid);
+            })
+            .then( res => {
+                return res.data.data
+            })
+            .then( user => {
+                localStorage.setItem('user', JSON.stringify(user));
             })
             .catch(err => {
                 const { message } = err;
@@ -150,7 +155,6 @@ export default withStyles(styles)(class SignUp extends Component {
         const { classes } = this.props;
         const { username, email, password, confirm } = this.state.valid;
         const { error, realTime } = this.state;
-        console.log('realTime: ', realTime)
         return (
             <Consumer>
                 {
