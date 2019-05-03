@@ -1,9 +1,10 @@
 import axios from 'axios';
+const baseURL = 'http://localhost:5000/';
 
 const signUpNewMember = (username, email, password, uid) => {
     return axios({
-        url: 'http://localhost:5000/members/create',
-        method: 'post',
+        url:  baseURL + 'members/create',
+        method: 'POST',
         data: {
             username: username,
             email: email,
@@ -15,8 +16,8 @@ const signUpNewMember = (username, email, password, uid) => {
 
 const loginToBackEnd = (uid, email, lastSignInTime) => {
     return axios({
-        url: 'http://localhost:5000/members/login',
-        method: 'put',
+        url: baseURL + 'members/login',
+        method: 'PUT',
         params: {
             uid: uid,
             email: email,
@@ -25,7 +26,19 @@ const loginToBackEnd = (uid, email, lastSignInTime) => {
     });
 };
 
+const createPost = (member_id, caption) => {
+    return axios({
+        url: baseURL + 'posts/create',
+        method: 'POST',
+        data: {
+            member_id: member_id,
+            caption: caption,
+        }
+    });
+};
+
 export {
     signUpNewMember,
-    loginToBackEnd
+    loginToBackEnd,
+    createPost,
 }
