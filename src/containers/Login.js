@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { Grid, Card, CardContent, CardMedia, Typography, Button, InputAdornment, IconButton, TextField, Hidden } from '@material-ui/core';
 import { Send, Clear, Visibility, VisibilityOff } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 import { Redirect, Link } from 'react-router-dom';
 import firebase from '../firebase';
+import { loginToBackEnd } from '../services/members';
 
 //context 
 import { Consumer } from '../contexts/Auth';
@@ -85,13 +85,8 @@ export default withStyles(styles)(class Login extends Component {
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then((response) => {
                 console.log('Returns: ', response.user);
-                return axios({
-                    url: 'http://localhost:5000/members/login',
-                    method: 'put',
-                    params: {
-                        uid: response.user.uid,
-                    },
-                });
+                const { uid, email, metadata: { lastSignInTime } } = response.user;
+                return loginToBackEnd(uid, email, lastSignInTime);
             })
             .then( res => {
                 // console.log('RES: ', res)
