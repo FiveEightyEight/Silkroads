@@ -15,17 +15,17 @@ const signUpNewMember = (username, email, password, uid) => {
 
 const loginToBackEnd = (uid, email, lastSignInTime) => {
     return axios({
-        url: 'http://localhost:5000/members/create',
-        method: 'post',
-        data: {
-            username: username,
+        url: 'http://localhost:5000/members/login',
+        method: 'put',
+        params: {
+            uid: uid,
             email: email,
-            password: password,
-            uid: uid
+            lastSignInTime: lastSignInTime,
         },
-    })
+    });
 };
 
 export {
     signUpNewMember,
+    loginToBackEnd
 }
