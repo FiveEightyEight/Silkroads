@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Home, Login, Logout, Post, SignUp } from './containers/';
+import { Home, Login, Logout, Post, Profile, SignUp } from './containers/';
 import NavBar from './components/NavBar';
 
-import Profile from './components/Profile';
 import Splash from './components/Splash';
 import { Grid } from '@material-ui/core';
 import { HashRouter, Route } from 'react-router-dom';

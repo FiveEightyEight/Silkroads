@@ -1,9 +1,9 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { Consumer } from '../contexts/Auth';
 import { Avatar, Grid, Paper, Typography } from '@material-ui/core';
+import { getUserProfile } from '../services/members';
 
 
 const styles = theme => ({
@@ -23,13 +23,10 @@ export default withStyles(styles)(props => {
     const { classes } = props;
 
     const userProfile = (user) => {
-        const { id } = JSON.parse(localStorage.getItem('user')) || null;
+        const { id } = (localStorage.getItem('user'))? JSON.parse(localStorage.getItem('user')) : null;
         if (!id) return <Redirect to='/' />;
-            return axios({
-            method: 'get',
-            url: `http://localhost:5000/members/${id}`,
-        })
-            .then(data => {
+        getUserProfile(id)
+            .then(({ data }) => {
                 console.log(data)
                 const { username, bio } = data.data
                 return (
