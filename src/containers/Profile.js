@@ -15,6 +15,18 @@ const styles = theme => ({
         padding: '5px',
         margin: '5px',
     },
+    profilePaper: {
+        height: '200px',
+    },
+    post: {
+
+        margin: '5px',
+    },
+    paper: {
+        width: '100%',
+        height: '100px',
+        padding: '3px',
+    },
 });
 
 
@@ -24,35 +36,60 @@ export default withStyles(styles)(class Profile extends Component {
         posts: null,
     }
 
+    handlePostClick = post_id => e => {
+        if (typeof post_id !== 'number') return;
+        this.props.history.push(`/posts/view/${post_id}`)
+    };
+
 
     userProfile = (classes, user) => {
-        const { username } = this.state;
+        const { username, posts } = this.state;
         if (username) {
             return (
                 <>
                     <Grid className={classes.profile}
                         container
                     >
-                        <Paper>
+                        <Paper
+                            className={classes.profilePaper}
+                        >
                             <Grid item xs={12}>
                                 <Grid container>
                                     <Avatar src="https://images.unsplash.com/photo-1534838525444-a4d09c0be267?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 1350w"
                                         alt="Remy Sharp" className={classes.avatar} />
-                                    <Typography variant='h5'>
-                                        {username}
+                                    <Typography variant='h4'>
+                                        <strong>{username}</strong>
                                     </Typography>
                                 </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Typography variant='body1'>
-                                    {/* {
-                                        (bio) ? bio : "Profile Description Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit aspernatur ex officiis unde saepe explicabo omnis, accusamus delectus architecto quis iusto at fuga a minus aliquam in. Saepe, dolorum minus?"
-                                    } */}
-                                </Typography>
-                            </Grid>
                         </Paper>
                     </Grid>
-
+                    <Grid container>
+                        {(!posts) ? <></>
+                            :
+                            <>
+                                {
+                                    posts.map((e, i, arr) => {
+                                        return (
+                                            < Grid item xs={12}
+                                                className={classes.post}
+                                                key={i}
+                                                onClick={this.handlePostClick(arr[arr.length - i - 1].post_id)}
+                                            >
+                                                <Paper
+                                                    className={classes.paper}
+                                                >
+                                                    <Typography variant='h5'>
+                                                        {arr[arr.length - i - 1].caption}
+                                                    </Typography>
+                                                </Paper>
+                                            </Grid>
+                                        )
+                                    })
+                                }
+                            </>
+                        }
+                    </Grid>
                 </>
             )
         } else {
@@ -60,7 +97,7 @@ export default withStyles(styles)(class Profile extends Component {
                 <Grid container>
                     <Grid item xs={12}>
                         <Typography variant='h5'
-                        align='center'
+                            align='center'
                         >
                             Loading...
                         </Typography>
