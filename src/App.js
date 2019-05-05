@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Home, Login, Logout, Post, SignUp } from './containers/';
+import { Home, Login, Logout, Post, PostPage, Profile, SignUp } from './containers/';
 import NavBar from './components/NavBar';
 
-import Profile from './components/Profile';
 import Splash from './components/Splash';
 import { Grid } from '@material-ui/core';
 import { HashRouter, Route } from 'react-router-dom';
@@ -63,6 +62,7 @@ class App extends Component {
                   <Route path='/' exact component={Home} />
                   <Route path='/profile' exact component={Profile} />
                   <Route path='/post' exact component={Post} />
+                  <Route path='/posts/view/:post_id' exact component={PostPage} />
                   <Route path='/login' exact component={Login} />
                   <Route path='/signup' exact component={SignUp} />
                   <Route path='/logout' exact component={Logout} />

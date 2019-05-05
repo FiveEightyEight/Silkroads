@@ -37,8 +37,24 @@ const createPost = (member_id, caption) => {
     });
 };
 
+const getUserProfile = (id) => {
+    return axios({
+        method: 'GET',
+        url: `http://localhost:5000/members/${id}`,
+    });
+};
+
+const getPost = (post_id) => {
+    return axios({
+        method: 'GET',
+        url: `http://localhost:5000/posts/${post_id}`,
+    });
+}
+
 export {
     signUpNewMember,
     loginToBackEnd,
     createPost,
+    getUserProfile,
+    getPost,
 }
