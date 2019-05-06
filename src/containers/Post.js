@@ -79,6 +79,10 @@ export default withStyles(styles)(class Posts extends Component {
             this.setState({ error: true });
             return;
         }
+        if (caption.length > 254) {
+            this.setState({ error: true });
+            return;
+        }
         if (!upload) {
             createPost(user_id, caption)
                 .then(res => {
