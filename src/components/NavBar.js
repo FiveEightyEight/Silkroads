@@ -6,6 +6,7 @@ import { AccountCircle, Send, Search } from '@material-ui/icons/';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Link } from 'react-router-dom';
 import { Consumer } from '../contexts/Auth';
+import { getAllMembers } from '../services/members';
 
 const styles = theme => ({
     menuButton: {
@@ -41,6 +42,15 @@ export default withStyles(styles)(class NavBar extends Component {
     handleClose = () => {
         this.setState({ anchorEl: null, main: false, profile: false });
     }
+    getUsers = () => {
+        getAllMembers()
+            .then(({ data }) => {
+                console.log(data);
+            })
+            .catch(err => {
+                console.log('error retrieveing users')
+            });
+    };
 
     render() {
         const { classes } = this.props;
@@ -90,6 +100,7 @@ export default withStyles(styles)(class NavBar extends Component {
                             {
                                 (user) => {
                                     if (user) {
+                                        this.getUsers();
                                         return (
                                             <>
                                                 <Grid item>
@@ -149,7 +160,7 @@ export default withStyles(styles)(class NavBar extends Component {
                                                 <Grid item>
                                                     <Typography variant="h6" color="inherit" className={classes.grow}>
                                                         Silkroads
-                                                    </Typography>    
+                                                    </Typography>
                                                 </Grid>
                                                 <Grid item>
                                                     <Link to='/'>
