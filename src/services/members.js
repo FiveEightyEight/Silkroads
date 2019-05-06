@@ -51,6 +51,13 @@ const getPost = (post_id) => {
     });
 }
 
+const getAllPosts = () => {
+    return axios({
+        method: 'GET',
+        url: baseURL +  `posts/all`,
+    });
+};
+
 const getAllMembers = () => {
     return axios({
         method: 'GET',
@@ -64,5 +71,6 @@ export {
     createPost,
     getUserProfile,
     getPost,
+    getAllPosts,
     getAllMembers,
 }
