@@ -61,6 +61,7 @@ class App extends Component {
                 <Grid container style={{ marginTop: '65px' }}>
                   <Route path='/' exact component={Home} />
                   <Route path='/profile' exact component={Profile} />
+                  <Route path='/profile/:id' exact component={Profile} />
                   <Route path='/post' exact component={Post} />
                   <Route path='/posts/view/:post_id' exact component={PostPage} />
                   <Route path='/login' exact component={Login} />

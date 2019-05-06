@@ -26,7 +26,10 @@ export default withStyles(styles)(class NavBar extends Component {
         anchorEl: null,
         main: null,
         profile: null,
+        fetched: false,
         search: '',
+        allUsers: [],
+        searchError: false,
     };
 
     handleOnChange = name => e => {
@@ -46,15 +49,43 @@ export default withStyles(styles)(class NavBar extends Component {
         getAllMembers()
             .then(({ data }) => {
                 console.log(data);
+                this.setState({
+                    allUsers: data,
+                    fetched: true,
+                })
             })
             .catch(err => {
                 console.log('error retrieveing users')
             });
     };
 
+    handleOnKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            this.handleValidation();
+        };
+    };
+
+    handleValidation = () => {
+        const search  = this.state.search.trim().toLowerCase();
+        const { allUsers } = this.state;
+        for (let user of allUsers) {
+            if (user.username.toLowerCase() === search){
+                this.setState({
+                    search: '',
+                    searchError: false,
+                })        
+                this.props.history.push(`/profile/${user.user_id}`);
+                return;
+            };
+        };
+        this.setState({
+            searchError: true,
+        })
+    };
+
     render() {
         const { classes } = this.props;
-        const { anchorEl, search } = this.state;
+        const { anchorEl, search, searchError, fetched } = this.state;
         const open = this.state.profile || false;
         const menu = this.state.main || false;
 
@@ -100,7 +131,7 @@ export default withStyles(styles)(class NavBar extends Component {
                             {
                                 (user) => {
                                     if (user) {
-                                        this.getUsers();
+                                        if (!fetched) this.getUsers();
                                         return (
                                             <>
                                                 <Grid item>
@@ -109,6 +140,8 @@ export default withStyles(styles)(class NavBar extends Component {
                                                         id="input-with-icon-textfield"
                                                         onChange={this.handleOnChange('search')}
                                                         value={search}
+                                                        onKeyDown={this.handleOnKeyPress}
+                                                        error={searchError}
                                                         InputProps={{
                                                             startAdornment: (
                                                                 <InputAdornment position="start">
