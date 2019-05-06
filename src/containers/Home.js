@@ -22,6 +22,7 @@ const styles = theme => ({
         width: '100%',
         height: '100px',
         padding: '3px',
+        overflowY: 'auto',
     },
     feed: {
         width:'100%',
