@@ -48,7 +48,6 @@ export default withStyles(styles)(class NavBar extends Component {
     getUsers = () => {
         getAllMembers()
             .then(({ data }) => {
-                console.log(data);
                 this.setState({
                     allUsers: data,
                     fetched: true,

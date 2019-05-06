@@ -114,7 +114,6 @@ export default withStyles(styles)(class Profile extends Component {
         if (!id) return <Redirect to='/' />;
         getUserProfile(id)
             .then(({ data }) => {
-                console.log(data)
                 const { username, user_id } = data[0]
                 this.setState({
                     id: user_id,
