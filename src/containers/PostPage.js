@@ -61,10 +61,8 @@ export default withStyles(styles)(class PostPage extends Component {
 
     componentDidMount() {
         const { post_id } = this.props.match.params;
-        console.log(post_id)
         getPost(post_id)
             .then(({ data }) => {
-                console.log(data)
                 this.setState({ ...data })
             })
             .catch(err => {

@@ -40,16 +40,30 @@ const createPost = (member_id, caption) => {
 const getUserProfile = (id) => {
     return axios({
         method: 'GET',
-        url: `http://localhost:5000/members/${id}`,
+        url: baseURL + `members/${id}`,
     });
 };
 
 const getPost = (post_id) => {
     return axios({
         method: 'GET',
-        url: `http://localhost:5000/posts/${post_id}`,
+        url: baseURL +  `posts/${post_id}`,
     });
 }
+
+const getAllPosts = () => {
+    return axios({
+        method: 'GET',
+        url: baseURL +  `posts/all`,
+    });
+};
+
+const getAllMembers = () => {
+    return axios({
+        method: 'GET',
+        url: baseURL +  `members/all`,
+    });
+};
 
 export {
     signUpNewMember,
@@ -57,4 +71,6 @@ export {
     createPost,
     getUserProfile,
     getPost,
+    getAllPosts,
+    getAllMembers,
 }

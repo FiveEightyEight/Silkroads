@@ -26,6 +26,7 @@ const styles = theme => ({
         width: '100%',
         height: '100px',
         padding: '3px',
+        overflowY: 'auto',
     },
 });
 
@@ -108,12 +109,15 @@ export default withStyles(styles)(class Profile extends Component {
     };
 
     componentDidMount() {
-        const { id } = (localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user')) : null;
+        const { id } = (this.props.match.params.hasOwnProperty('id')) ? this.props.match.params
+            : (localStorage.getItem('user')) ? JSON.parse(localStorage.getItem('user'))
+                : null;
         if (!id) return <Redirect to='/' />;
         getUserProfile(id)
             .then(({ data }) => {
-                const { username } = data[0]
+                const { username, user_id } = data[0]
                 this.setState({
+                    id: user_id,
                     username: username,
                     posts: data,
                 })
@@ -122,8 +126,27 @@ export default withStyles(styles)(class Profile extends Component {
                 console.log('error: ', err)
             })
     };
-    componentDidUpdate() {
-        console.log(this.state)
+    componentDidUpdate(pp, ps) {
+        const { id } = this.props.match.params
+        if (!id) return;
+        if (this.state.id !== parseInt(id)) {
+            getUserProfile(id)
+                .then(({ data }) => {
+                    const { username, user_id } = data[0]
+                    this.setState({
+                        id: user_id,
+                        username: username,
+                        posts: data,
+                    })
+                })
+                .catch(err => {
+                    console.log('error: ', err)
+                })
+        };
+    };
+
+    componentWillUnmount() {
+        console.log('unmounting profile')
     }
 
     render() {
