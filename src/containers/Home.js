@@ -43,20 +43,11 @@ const styles = theme => ({
         width: '100%',
         height: `calc(${windowHeight}px - 300px)`,
         overflowY: 'auto',
+    },
+    hr: {
+        padding: '0px',
+        marginBottom: '0px'
     }
-    // paper: {
-    //     
-    //     // height: 'calc(100% - 250px)',
-    //    
-    //     //     [theme.breakpoints.up('sm')]: {
-    //     //         marginTop: 5,
-    //     //         height: 'calc(100% - 10px)'
-    //     //     },
-    //     //     [theme.breakpoints.down('xs')]: {
-    //     //         height: '100%'
-    //     //     },
-    // },
-
 });
 
 export default withStyles(styles)(class Home extends Component {
@@ -115,7 +106,7 @@ export default withStyles(styles)(class Home extends Component {
                                         <Typography variant='h6'
                                         align='center'
                                         >
-                                            Your ID is: {user.uid}
+                                            Recent Posts
                                         </Typography>
                                     </Grid>
                                     <Grid container
@@ -164,7 +155,9 @@ export default withStyles(styles)(class Home extends Component {
                                                                                         {moment(arr[arr.length - i - 1].post_created).fromNow()}
                                                                                     </Typography>
                                                                                 </Grid>
-                                                                                <Grid item xs={12}>
+                                                                                <Grid item xs={12} 
+                                                                                className={classes.hr}
+                                                                                >
                                                                                     <hr />
                                                                                 </Grid>
                                                                                 <Grid item xs={12}

@@ -18,6 +18,9 @@ const styles = theme => ({
     },
     margin: {
 
+    },
+    link: {
+        textDecoration: 'none',
     }
 });
 
@@ -120,7 +123,7 @@ export default withStyles(styles)(class NavBar extends Component {
                             open={menu}
                             onClose={this.handleClose}
                         >
-                            <Link to='/' style={{ textDecoration: 'none', backgroundColor: 'red' }}>
+                            <Link to='/' style={{ textDecoration: 'none', backgroundColor: 'red', textDecoration: 'none' }}>
                                 <MenuItem onClick={this.handleClose}>Home</MenuItem>
                             </Link>
                             <MenuItem onClick={this.handleClose}>Threads</MenuItem>
@@ -173,13 +176,19 @@ export default withStyles(styles)(class NavBar extends Component {
                                                         open={open}
                                                         onClose={this.handleClose}
                                                     >
-                                                        <Link to='/profile'>
-                                                            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+                                                        <Link to='/profile'
+                                                        className={classes.link}
+                                                        >
+                                                            <MenuItem onClick={this.handleClose}>My Profile</MenuItem>
                                                         </Link>
-                                                        <Link to='/post'>
+                                                        <Link to='/post'
+                                                        className={classes.link}
+                                                        >
                                                             <MenuItem onClick={this.handleClose}>Create Post</MenuItem>
                                                         </Link>
-                                                        <Link to='/logout'>
+                                                        <Link to='/logout'
+                                                        className={classes.link}
+                                                        >
                                                             <MenuItem onClick={this.handleClose}>Logout</MenuItem>
                                                         </Link>
                                                     </Menu>
