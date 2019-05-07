@@ -16,9 +16,10 @@ const styles = theme => ({
     },
     headerMain: {
         marginTop: '10px',
+        marginBottom: '10px',
     },
     headerSub: {
-        marginBottom: '10px',
+        marginBottom: '5px',
     },
     post: {
 
