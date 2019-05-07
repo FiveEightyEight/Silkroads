@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Consumer } from '../contexts/Auth';
 import { Avatar, Grid, Paper, Typography } from '@material-ui/core';
 import { getPost } from '../services/members';
@@ -10,12 +10,16 @@ const styles = theme => ({
         margin: 10,
     },
     paper: {
+        marginTop: '20px',
         width: '100%',
         // height: '100px',
         padding: '3px',
     },
     caption: {
         margin: '5px'
+    },
+    link: {
+        textDecoration: 'none',
     }
 });
 
@@ -25,7 +29,7 @@ export default withStyles(styles)(class PostPage extends Component {
     };
 
     PostPage = (classes, user) => {
-        const { username, caption, date_created} = this.state;
+        const { username, caption, date_created, member_id} = this.state;
         return (
             <Grid container>
                 <Grid item xs={12}>
@@ -34,9 +38,13 @@ export default withStyles(styles)(class PostPage extends Component {
                             <Grid item xs={12}>
                                 <Avatar src="https://images.unsplash.com/photo-1534838525444-a4d09c0be267?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80 1350w"
                                     alt="Remy Sharp" className={classes.avatar} />
+                                    <Link to={'/profile/' + member_id}
+                                    className={classes.link}
+                                    >
                                 <Typography variant='h4'>
                                     <strong>{username}</strong>
                                 </Typography>
+                                </Link>
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant='body2'
