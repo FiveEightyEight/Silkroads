@@ -123,7 +123,7 @@ export default withStyles(styles)(class NavBar extends Component {
                             open={menu}
                             onClose={this.handleClose}
                         >
-                            <Link to='/' style={{ textDecoration: 'none', backgroundColor: 'red', textDecoration: 'none' }}>
+                            <Link to='/' style={{ textDecoration: 'none', backgroundColor: 'red'}}>
                                 <MenuItem onClick={this.handleClose}>Home</MenuItem>
                             </Link>
                             <MenuItem onClick={this.handleClose}>Threads</MenuItem>
