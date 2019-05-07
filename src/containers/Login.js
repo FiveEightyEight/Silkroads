@@ -88,11 +88,11 @@ export default withStyles(styles)(class Login extends Component {
                 const { uid, email, metadata: { lastSignInTime } } = response.user;
                 return loginToBackEnd(uid, email, lastSignInTime);
             })
-            .then( res => {
+            .then(res => {
                 // console.log('RES: ', res)
                 return res.data
             })
-            .then( user => {
+            .then(user => {
                 localStorage.setItem('user', JSON.stringify(user));
             })
             .catch(err => {
@@ -156,28 +156,31 @@ export default withStyles(styles)(class Login extends Component {
                                                                         />
                                                                     </Grid>
                                                                     <Grid item xs={12}>
-                                                                        <TextField
-                                                                            id="outlined-adornment-password"
-                                                                            variant="outlined"
-                                                                            type={this.state.showPassword ? 'text' : 'password'}
-                                                                            name='password'
-                                                                            label="Password"
-                                                                            value={this.state.password}
-                                                                            onChange={this.handleChange}
-                                                                            onKeyDown={this.onKeyPress}
-                                                                            InputProps={{
-                                                                                endAdornment: (
-                                                                                    <InputAdornment position="end">
-                                                                                        <IconButton
-                                                                                            aria-label="Toggle password visibility"
-                                                                                            onClick={this.handleClickShowPassword}
-                                                                                        >
-                                                                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                                        </IconButton>
-                                                                                    </InputAdornment>
-                                                                                ),
-                                                                            }}
-                                                                        />
+                                                                        <form autoComplete="off">
+                                                                            <TextField
+                                                                                id="outlined-adornment-password"
+                                                                                variant="outlined"
+                                                                                type={this.state.showPassword ? 'text' : 'password'}
+                                                                                name='password'
+                                                                                label="Password"
+                                                                                value={this.state.password}
+                                                                                onChange={this.handleChange}
+                                                                                onKeyDown={this.onKeyPress}
+                                                                                autoComplete="new-password"
+                                                                                InputProps={{
+                                                                                    endAdornment: (
+                                                                                        <InputAdornment position="end">
+                                                                                            <IconButton
+                                                                                                aria-label="Toggle password visibility"
+                                                                                                onClick={this.handleClickShowPassword}
+                                                                                            >
+                                                                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                                            </IconButton>
+                                                                                        </InputAdornment>
+                                                                                    ),
+                                                                                }}
+                                                                            />
+                                                                        </form>
                                                                     </Grid>
                                                                     <Grid item xs={12} style={{ marginTop: 5 }}>
                                                                         <Grid container
@@ -245,29 +248,32 @@ export default withStyles(styles)(class Login extends Component {
                                                                         />
                                                                     </Grid>
                                                                     <Grid item xs={12}>
-                                                                        <TextField
-                                                                            id="outlined-adornment-password"
-                                                                            className={classes.mdInput}
-                                                                            variant="outlined"
-                                                                            type={this.state.showPassword ? 'text' : 'password'}
-                                                                            name='password'
-                                                                            label="Password"
-                                                                            value={this.state.password}
-                                                                            onChange={this.handleChange}
-                                                                            onKeyDown={this.onKeyPress}
-                                                                            InputProps={{
-                                                                                endAdornment: (
-                                                                                    <InputAdornment position="end">
-                                                                                        <IconButton
-                                                                                            aria-label="Toggle password visibility"
-                                                                                            onClick={this.handleClickShowPassword}
-                                                                                        >
-                                                                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                                        </IconButton>
-                                                                                    </InputAdornment>
-                                                                                ),
-                                                                            }}
-                                                                        />
+                                                                        <form autoComplete="off">
+                                                                            <TextField
+                                                                                id="outlined-adornment-password"
+                                                                                className={classes.mdInput}
+                                                                                variant="outlined"
+                                                                                type={this.state.showPassword ? 'text' : 'password'}
+                                                                                name='password'
+                                                                                label="Password"
+                                                                                value={this.state.password}
+                                                                                onChange={this.handleChange}
+                                                                                onKeyDown={this.onKeyPress}
+                                                                                autoComplete="new-password"
+                                                                                InputProps={{
+                                                                                    endAdornment: (
+                                                                                        <InputAdornment position="end">
+                                                                                            <IconButton
+                                                                                                aria-label="Toggle password visibility"
+                                                                                                onClick={this.handleClickShowPassword}
+                                                                                            >
+                                                                                                {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                                            </IconButton>
+                                                                                        </InputAdornment>
+                                                                                    ),
+                                                                                }}
+                                                                            />
+                                                                        </form>
                                                                     </Grid>
                                                                     <Grid item xs={12} style={{ marginTop: 5 }}>
                                                                         <Grid container
