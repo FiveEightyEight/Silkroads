@@ -14,6 +14,12 @@ const styles = theme => ({
     home: {
         height: '100%',
     },
+    headerMain: {
+        marginTop: '10px',
+    },
+    headerSub: {
+        marginBottom: '10px',
+    },
     post: {
 
         margin: '5px',
@@ -21,11 +27,20 @@ const styles = theme => ({
     paper: {
         width: '100%',
         height: '100px',
-        padding: '3px',
+        paddingTop: '3px',
+        paddingRight: '3px',
+        paddingLeft: '3px',
+        paddingBottom: '1px',
+        overflowY: 'hidden',
+        maxWidth: '600px',
+
+    },
+    caption: {
+        height: '70px',
         overflowY: 'auto',
     },
     feed: {
-        width:'100%',
+        width: '100%',
         height: `calc(${windowHeight}px - 300px)`,
         overflowY: 'auto',
     }
@@ -85,9 +100,28 @@ export default withStyles(styles)(class Home extends Component {
                                 <Grid container
                                     className={classes.home}
                                 >
-                                    <h2>Welcome back, {user.email}</h2>
-                                    <h4>Your ID is: {user.uid}</h4>
+                                    <Grid item xs={12}
+                                    className={classes.headerMain}
+                                    >
+                                        <Typography variant='h4'
+                                        align='center'
+                                        >
+                                            Welcome back, {user.email}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={12}
+                                    className={classes.headerSub}
+                                    >
+                                        <Typography variant='h6'
+                                        align='center'
+                                        >
+                                            Your ID is: {user.uid}
+                                        </Typography>
+                                    </Grid>
                                     <Grid container
+                                        direction="row"
+                                        justify="center"
+                                        alignItems="center"
                                         item xs={12}
                                         className={classes.feed}
 
@@ -103,34 +137,48 @@ export default withStyles(styles)(class Home extends Component {
                                                                 key={i}
                                                                 onClick={this.handlePostClick(arr[arr.length - i - 1].post_id)}
                                                             >
-                                                                <Paper
-                                                                    className={classes.paper}
+                                                                <Grid container
+                                                                    justify="center"
+                                                                    alignItems="center"
                                                                 >
-                                                                    <Grid item xs={12}>
-                                                                        <Grid container>
-                                                                            <Grid item xs={6}>
-                                                                                <Typography variant='body2'
-                                                                                    align='left'
+                                                                    <Paper
+                                                                        className={classes.paper}
+                                                                    >
+                                                                        <Grid item xs={12}>
+                                                                            <Grid container
+                                                                                justify="center"
+                                                                            >
+                                                                                <Grid item xs={6}>
+                                                                                    <Typography variant='body2'
+                                                                                        align='left'
+                                                                                    >
+                                                                                        {arr[arr.length - i - 1].username}
+                                                                                    </Typography>
+
+                                                                                </Grid>
+
+                                                                                <Grid item xs={6}>
+                                                                                    <Typography variant='caption'
+                                                                                        align='right'
+                                                                                    >
+                                                                                        {moment(arr[arr.length - i - 1].post_created).fromNow()}
+                                                                                    </Typography>
+                                                                                </Grid>
+                                                                                <Grid item xs={12}>
+                                                                                    <hr />
+                                                                                </Grid>
+                                                                                <Grid item xs={12}
+                                                                                    className={classes.caption}
                                                                                 >
-                                                                                    {arr[arr.length - i - 1].username}
-                                                                                </Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={6}>
-                                                                                <Typography variant='caption'
-                                                                                    align='right'
-                                                                                >
-                                                                                    {moment(arr[arr.length - i - 1].post_created).fromNow()}
-                                                                                </Typography>
-                                                                            </Grid>
-                                                                            <Grid item xs={12}>
-                                                                                <hr />
-                                                                                <Typography variant='h5'>
-                                                                                    {arr[arr.length - i - 1].caption}
-                                                                                </Typography>
+
+                                                                                    <Typography variant='h5'>
+                                                                                        {arr[arr.length - i - 1].caption}
+                                                                                    </Typography>
+                                                                                </Grid>
                                                                             </Grid>
                                                                         </Grid>
-                                                                    </Grid>
-                                                                </Paper>
+                                                                    </Paper>
+                                                                </Grid>
                                                             </Grid>
                                                         )
                                                     })
