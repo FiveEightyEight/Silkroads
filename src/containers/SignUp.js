@@ -133,10 +133,10 @@ export default withStyles(styles)(class SignUp extends Component {
             .then((response) => {
                 return signUpNewMember(username, email, password, response.user.uid);
             })
-            .then( res => {
+            .then(res => {
                 return res.data.data
             })
-            .then( user => {
+            .then(user => {
                 localStorage.setItem('user', JSON.stringify(user));
             })
             .catch(err => {
@@ -219,56 +219,62 @@ export default withStyles(styles)(class SignUp extends Component {
                                                 <Grid container
                                                     justify="center"
                                                 >
-                                                    <TextField
-                                                        error={!password || !realTime}
-                                                        type={this.state.showPassword ? 'text' : 'password'}
-                                                        name='password'
-                                                        className={classes.inputs}
-                                                        label="Password"
-                                                        value={this.state.password}
-                                                        onChange={this.handleChange('password')}
-                                                        onKeyDown={this.onKeyPress}
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="Toggle password visibility"
-                                                                        onClick={this.handleClickShowPassword('showPassword')}
-                                                                    >
-                                                                        {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            ),
-                                                        }}
-                                                    />
+                                                    <form autoComplete="off">
+                                                        <TextField
+                                                            error={!password || !realTime}
+                                                            type={this.state.showPassword ? 'text' : 'password'}
+                                                            name='password'
+                                                            className={classes.inputs}
+                                                            label="Password"
+                                                            value={this.state.password}
+                                                            onChange={this.handleChange('password')}
+                                                            onKeyDown={this.onKeyPress}
+                                                            autoComplete="new-password"
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <IconButton
+                                                                            aria-label="Toggle password visibility"
+                                                                            onClick={this.handleClickShowPassword('showPassword')}
+                                                                        >
+                                                                            {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                                                                        </IconButton>
+                                                                    </InputAdornment>
+                                                                ),
+                                                            }}
+                                                        />
+                                                    </form>
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12}>
                                                 <Grid container
                                                     justify="center"
                                                 >
-                                                    <TextField
-                                                        error={!confirm || !realTime}
-                                                        type={this.state.showConfirm ? 'text' : 'password'}
-                                                        name='password'
-                                                        className={classes.inputs}
-                                                        label="Confirm Password"
-                                                        value={this.state.confirm}
-                                                        onChange={this.handleChange('confirm')}
-                                                        onKeyDown={this.onKeyPress}
-                                                        InputProps={{
-                                                            endAdornment: (
-                                                                <InputAdornment position="end">
-                                                                    <IconButton
-                                                                        aria-label="Toggle password visibility"
-                                                                        onClick={this.handleClickShowPassword('showConfirm')}
-                                                                    >
-                                                                        {this.state.showConfirm ? <VisibilityOff /> : <Visibility />}
-                                                                    </IconButton>
-                                                                </InputAdornment>
-                                                            ),
-                                                        }}
-                                                    />
+                                                    <form autoComplete="off">
+                                                        <TextField
+                                                            error={!confirm || !realTime}
+                                                            type={this.state.showConfirm ? 'text' : 'password'}
+                                                            name='password'
+                                                            className={classes.inputs}
+                                                            label="Confirm Password"
+                                                            value={this.state.confirm}
+                                                            onChange={this.handleChange('confirm')}
+                                                            onKeyDown={this.onKeyPress}
+                                                            autoComplete="new-password"
+                                                            InputProps={{
+                                                                endAdornment: (
+                                                                    <InputAdornment position="end">
+                                                                        <IconButton
+                                                                            aria-label="Toggle password visibility"
+                                                                            onClick={this.handleClickShowPassword('showConfirm')}
+                                                                        >
+                                                                            {this.state.showConfirm ? <VisibilityOff /> : <Visibility />}
+                                                                        </IconButton>
+                                                                    </InputAdornment>
+                                                                ),
+                                                            }}
+                                                        />
+                                                    </form>
                                                 </Grid>
                                             </Grid>
                                             <Grid item xs={12} style={{ marginTop: 10 }}>
